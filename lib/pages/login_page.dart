@@ -1,3 +1,5 @@
+import 'package:ecommercefirebase/auth/auth_service.dart';
+import 'package:ecommercefirebase/pages/launcher_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -18,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   String _errMsg = '';
   @override
   void initState() {
-    _emailController.text = 'admin08@gmail.com';
+    _emailController.text = 'admin@gmail.com';
     _passwordController.text = '123456';
     super.initState();
   }
@@ -103,7 +105,28 @@ class _LoginPageState extends State<LoginPage> {
 
   void _authenticate() async {
     if(_formKey.currentState!.validate()) {
+        EasyLoading.show(status: 'Please Wait', dismissOnTap: false);
+      final email = _emailController.text;
+      final password = _passwordController.text;
 
+      try{
+        final isAdmin = await AuthService.loginAdmin(email, password);
+        EasyLoading.dismiss();
+        if(isAdmin){
+          Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+        }else{
+          await AuthService.logout();
+          setState(() {
+            _errMsg = 'This is not an admin account';
+          });
+        }
+
+      } on FirebaseAuthException catch (error){
+        EasyLoading.dismiss();
+        setState(() {
+          _errMsg = error.message!;
+        });
+      }
 
     }
   }

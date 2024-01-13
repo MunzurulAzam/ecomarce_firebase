@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ecommercefirebase/auth/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,9 @@ class _DashboardPageState extends State<DashboardPage> {
         title: const Text('Dashboard'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AuthService.logout().then((value) => Navigator.pushReplacementNamed(context, LauncherPage.routeName));
+            },
             icon: const Icon(Icons.logout),
           ),
         ],
