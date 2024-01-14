@@ -1,9 +1,11 @@
 
+import 'package:ecommercefirebase/models/product_model.dart';
+
 import 'date_model.dart';
 const String collectionPurchase='Purchases';
 
 const String purchaseFieldId='purchaseId';
-const String purchaseFieldProductId='productId';
+const String purchaseFieldProduct='productId';
 const String purchaseFieldQuantity='purchaseQuantity';
 const String purchaseFieldPrice='purchasePrice';
 const String purchaseFieldDateModel='dateModel';
@@ -12,14 +14,14 @@ const String purchaseFieldDateModel='dateModel';
 class PurchaseModel{
 
  String? purchaseId;
- String ? productId;
+ ProductModel productModel;
  num purchaseQuantity;
  num purchasePrice;
  DateModel dateModel;
 
  PurchaseModel({
    this.purchaseId,
-   this.productId,
+   required this.productModel,
    required this.purchaseQuantity,
    required this.purchasePrice,
    required this.dateModel,
@@ -28,7 +30,7 @@ class PurchaseModel{
  Map<String,dynamic>toMap(){
    return <String,dynamic>{
      purchaseFieldId:purchaseId,
-     purchaseFieldProductId:productId,
+     purchaseFieldProduct:productModel.toMap(),
      purchaseFieldQuantity:purchaseQuantity,
      purchaseFieldPrice:purchasePrice,
      purchaseFieldDateModel:dateModel.toMap(),
@@ -37,7 +39,7 @@ class PurchaseModel{
 
  factory PurchaseModel.fromMap(Map<String,dynamic>map)=>PurchaseModel(
    purchaseId:map[purchaseFieldId],
-   productId:map[purchaseFieldProductId],
+   productModel: ProductModel.fromMap(map[purchaseFieldProduct]),
    purchaseQuantity: map[purchaseFieldQuantity],
    purchasePrice:map[purchaseFieldPrice],
    dateModel: DateModel.fromMap(map[purchaseFieldDateModel]),
