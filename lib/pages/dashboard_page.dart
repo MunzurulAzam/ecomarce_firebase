@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:ecommercefirebase/auth/auth_service.dart';
+import 'package:ecommercefirebase/providers/product_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../customwidgets/dashboard_item_view.dart';
 import '../models/dashboard_model.dart';
 import 'add_product_page.dart';
@@ -37,6 +39,12 @@ class _DashboardPageState extends State<DashboardPage> {
     SettingsPage(),
     ReportPage(),
   ];
+  @override
+  void didChangeDependencies() {
+    Provider.of<ProductProvider>(context, listen: false).getAllCategories();
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
